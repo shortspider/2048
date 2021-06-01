@@ -125,11 +125,12 @@ HTMLActuator.prototype.updateBestScore = function (bestScore) {
 };
 
 HTMLActuator.prototype.message = function (won) {
-  var type    = won ? "game-won" : "game-over";
-  var message = won ? "You win!" : "Game over!";
-
-  this.messageContainer.classList.add(type);
-  this.messageContainer.getElementsByTagName("p")[0].textContent = message;
+  if (won) {
+    this.continueGame();
+  } else {
+    this.messageContainer.classList.add("game-over");
+    this.messageContainer.getElementsByTagName("p")[0].textContent = "Game over!";
+  }
 };
 
 HTMLActuator.prototype.clearMessage = function () {
