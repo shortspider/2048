@@ -24,20 +24,16 @@ HTMLActuator.prototype.actuate = function (grid, metadata) {
     self.updateScore(metadata.score);
     self.updateBestScore(metadata.bestScore);
 
-    if (metadata.terminated) {
-      if (metadata.over) {
-        self.message(false); // You lose
-      } else if (metadata.won) {
-        self.message(true); // You win!
-      }
+    if (metadata.over) {
+      this.messageContainer.classList.add("game-over");
+      this.messageContainer.getElementsByTagName("p")[0].textContent = "Game over!";
     }
 
   });
 };
 
-// Continues the game (both restart and keep playing)
 HTMLActuator.prototype.continueGame = function () {
-  this.clearMessage();
+  this.messageContainer.classList.remove("game-over");
 };
 
 HTMLActuator.prototype.clearContainer = function (container) {
@@ -122,19 +118,4 @@ HTMLActuator.prototype.updateScore = function (score) {
 
 HTMLActuator.prototype.updateBestScore = function (bestScore) {
   this.bestContainer.textContent = bestScore;
-};
-
-HTMLActuator.prototype.message = function (won) {
-  if (won) {
-    this.continueGame();
-  } else {
-    this.messageContainer.classList.add("game-over");
-    this.messageContainer.getElementsByTagName("p")[0].textContent = "Game over!";
-  }
-};
-
-HTMLActuator.prototype.clearMessage = function () {
-  // IE only takes one value to remove at a time.
-  this.messageContainer.classList.remove("game-won");
-  this.messageContainer.classList.remove("game-over");
 };
